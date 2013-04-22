@@ -111,6 +111,7 @@ public class AriaShellOperationCommands implements CommandMarker {
      *
      * @param status status
      */
+    @SuppressWarnings("unchecked")
     private void printStatus(Map<String, Object> status) {
         Object[] files = (Object[]) status.get("files");
         System.out.println("Files:");
