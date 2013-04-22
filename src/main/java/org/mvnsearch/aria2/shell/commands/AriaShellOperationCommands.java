@@ -106,6 +106,48 @@ public class AriaShellOperationCommands implements CommandMarker {
     }
 
     /**
+     * tell status
+     *
+     * @param gid download gid
+     * @return status
+     */
+    @CliCommand(value = "tell", help = "Tell status of gid")
+    public String tell(@CliOption(key = {""}, mandatory = true, help = "gid") String gid) {
+        try {
+            Map<String, Object> status = ariaService.tellStatus(gid);
+            Object[] files = (Object[]) status.get("files");
+            System.out.println("Files:");
+            for (Object temp : files) {
+                Map<String, Object> file = (Map<String, Object>) temp;
+                for (Map.Entry<String, Object> entry : file.entrySet()) {
+                    Object value = entry.getValue();
+                    if (value instanceof String) {
+                        System.out.println("  " + entry.getKey() + ":" + value);
+                    }
+                }
+                System.out.println("  uris:");
+                Object[] uris = (Object[]) file.get("uris");
+                for (Object temp2 : uris) {
+                    Map<String, String> uri = (Map<String, String>) temp2;
+                    for (Map.Entry<String, String> entry2 : uri.entrySet()) {
+                        System.out.println("    " + entry2.getKey() + ":" + entry2.getValue());
+                    }
+                }
+            }
+            System.out.println("Basic:");
+            for (Map.Entry<String, Object> entry : status.entrySet()) {
+                if (!entry.getKey().equals("files")) {
+                    System.out.println("  " + entry.getKey() + ":" + entry.getValue());
+                }
+            }
+        } catch (Exception e) {
+            log.error("tell", e);
+            return wrappedAsRed(e.getMessage());
+        }
+        return null;
+    }
+
+    /**
      * wrapped as red with Jansi
      *
      * @param text text
