@@ -49,6 +49,14 @@ public interface AriaService {
     public void pause(String gid) throws Exception;
 
     /**
+     * unpause gid
+     *
+     * @param gid gid
+     * @throws Exception exception
+     */
+    public void unpause(String gid) throws Exception;
+
+    /**
      * tell download status
      *
      * @param gid gid

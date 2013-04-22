@@ -90,7 +90,19 @@ public class AriaServiceImpl implements AriaService {
      * @throws Exception exception
      */
     public void pause(String gid) throws Exception {
+        List<Object> params = constructParams(gid);
+        client.execute("aria2.pause", params);
+    }
 
+    /**
+     * unpause gid
+     *
+     * @param gid gid
+     * @throws Exception exception
+     */
+    public void unpause(String gid) throws Exception {
+        List<Object> params = constructParams(gid);
+        client.execute("aria2.unpause", params);
     }
 
     /**
