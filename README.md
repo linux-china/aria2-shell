@@ -8,3 +8,10 @@ aria shell is command line tool to interact with running aria by XML-RPC
 ### aria xml-rpc daemon
 
       aria2c --enable-rpc --rpc-allow-origin-all --log-level debug -l /tmp/aria.log -d /tmp -c -D
+
+### xml-rpc
+aria shell use apache xml-rpc package to interact with aria xml-rpc service.
+
+### How to debug app
+
+    java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -jar target/aria2-shell-1.0.0-SNAPSHOT.jar
