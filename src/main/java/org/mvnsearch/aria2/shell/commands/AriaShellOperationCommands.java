@@ -111,6 +111,7 @@ public class AriaShellOperationCommands implements CommandMarker {
      * @param gid download gid
      * @return status
      */
+    @SuppressWarnings("unchecked")
     @CliCommand(value = "tell", help = "Tell status of gid")
     public String tell(@CliOption(key = {""}, mandatory = true, help = "gid") String gid) {
         try {
