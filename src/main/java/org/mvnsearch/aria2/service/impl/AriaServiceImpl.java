@@ -68,7 +68,7 @@ public class AriaServiceImpl implements AriaService {
      * @param options options
      * @return gid
      */
-    public String addUri(String url, Map<Object,Object> options) throws Exception {
+    public String addUri(String url, Map<Object, Object> options) throws Exception {
         List<Object> params = constructParams(new Object[]{url}, options);
         return (String) client.execute("aria2.addUri", params);
     }
@@ -99,8 +99,9 @@ public class AriaServiceImpl implements AriaService {
      * @param gid gid
      * @return status information
      */
-    public Map<String, String> tellStatus(String gid) {
-        return null;
+    public Map<String, Object> tellStatus(String gid) throws Exception {
+        List<Object> params = constructParams(gid);
+        return (Map<String, Object>) client.execute("aria2.tellStatus", params);
     }
 
     /**

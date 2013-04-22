@@ -54,7 +54,7 @@ public interface AriaService {
      * @param gid gid
      * @return status information
      */
-    public Map<String, String> tellStatus(String gid);
+    public Map<String, Object> tellStatus(String gid) throws Exception;
 
     /**
      * get global stat
