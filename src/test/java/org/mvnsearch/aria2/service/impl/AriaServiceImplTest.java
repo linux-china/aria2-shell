@@ -36,4 +36,14 @@ public class AriaServiceImplTest extends TestCase {
         String gid = ariaService.addUri(uri, Collections.emptyMap());
         System.out.println(gid);
     }
+
+    /**
+     * test to tell status
+     *
+     * @throws Exception exception
+     */
+    public void testTellStatus() throws Exception {
+        String gid = "addf295d43548732";
+        ariaService.tellStatus(gid);
+    }
 }
