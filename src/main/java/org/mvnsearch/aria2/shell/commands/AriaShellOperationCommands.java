@@ -176,10 +176,11 @@ public class AriaShellOperationCommands implements CommandMarker {
      */
     public String tellStopped() {
         try {
+            System.out.println("==============Stopped==========");
             List<Map<String, Object>> items = ariaService.tellStopped(0, 10);
             for (Map<String, Object> item : items) {
                 printStatus(item);
-                System.out.println("========================");
+                System.out.println("==============================");
             }
             return null;
         } catch (Exception e) {
@@ -195,6 +196,7 @@ public class AriaShellOperationCommands implements CommandMarker {
      */
     public String tellWaiting() {
         try {
+            System.out.println("==============Waiting==========");
             List<Map<String, Object>> items = ariaService.tellWaiting(0, 10);
             for (Map<String, Object> item : items) {
                 printStatus(item);
@@ -214,10 +216,11 @@ public class AriaShellOperationCommands implements CommandMarker {
      */
     public String tellActive() {
         try {
+            System.out.println("==============Active==========");
             List<Map<String, Object>> items = ariaService.tellActive();
             for (Map<String, Object> item : items) {
                 printStatus(item);
-                System.out.println("========================");
+                System.out.println("============================");
             }
             return null;
         } catch (Exception e) {
