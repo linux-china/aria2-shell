@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -106,6 +107,39 @@ public class AriaShellOperationCommands implements CommandMarker {
     }
 
     /**
+     * print status
+     *
+     * @param status status
+     */
+    private void printStatus(Map<String, Object> status) {
+        Object[] files = (Object[]) status.get("files");
+        System.out.println("Files:");
+        for (Object temp : files) {
+            Map<String, Object> file = (Map<String, Object>) temp;
+            for (Map.Entry<String, Object> entry : file.entrySet()) {
+                Object value = entry.getValue();
+                if (value instanceof String) {
+                    System.out.println("  " + entry.getKey() + ":" + value);
+                }
+            }
+            System.out.println("  uris:");
+            Object[] uris = (Object[]) file.get("uris");
+            for (Object temp2 : uris) {
+                Map<String, String> uri = (Map<String, String>) temp2;
+                for (Map.Entry<String, String> entry2 : uri.entrySet()) {
+                    System.out.println("    " + entry2.getKey() + ":" + entry2.getValue());
+                }
+            }
+        }
+        System.out.println("Basic:");
+        for (Map.Entry<String, Object> entry : status.entrySet()) {
+            if (!entry.getKey().equals("files")) {
+                System.out.println("  " + entry.getKey() + ":" + entry.getValue());
+            }
+        }
+    }
+
+    /**
      * tell status
      *
      * @param gid download gid
@@ -115,30 +149,16 @@ public class AriaShellOperationCommands implements CommandMarker {
     @CliCommand(value = "tell", help = "Tell status of gid")
     public String tell(@CliOption(key = {""}, mandatory = true, help = "gid") String gid) {
         try {
-            Map<String, Object> status = ariaService.tellStatus(gid);
-            Object[] files = (Object[]) status.get("files");
-            System.out.println("Files:");
-            for (Object temp : files) {
-                Map<String, Object> file = (Map<String, Object>) temp;
-                for (Map.Entry<String, Object> entry : file.entrySet()) {
-                    Object value = entry.getValue();
-                    if (value instanceof String) {
-                        System.out.println("  " + entry.getKey() + ":" + value);
-                    }
-                }
-                System.out.println("  uris:");
-                Object[] uris = (Object[]) file.get("uris");
-                for (Object temp2 : uris) {
-                    Map<String, String> uri = (Map<String, String>) temp2;
-                    for (Map.Entry<String, String> entry2 : uri.entrySet()) {
-                        System.out.println("    " + entry2.getKey() + ":" + entry2.getValue());
-                    }
-                }
-            }
-            System.out.println("Basic:");
-            for (Map.Entry<String, Object> entry : status.entrySet()) {
-                if (!entry.getKey().equals("files")) {
-                    System.out.println("  " + entry.getKey() + ":" + entry.getValue());
+            if (gid.equals("stopped")) {
+                tellStopped();
+            } else if (gid.equals("waitting")) {
+                tellWaiting();
+            } else if (gid.equals("active")) {
+                tellActive();
+            } else {
+                Map<String, Object> status = ariaService.tellStatus(gid);
+                if (status != null) {
+                    printStatus(status);
                 }
             }
         } catch (Exception e) {
@@ -146,6 +166,63 @@ public class AriaShellOperationCommands implements CommandMarker {
             return wrappedAsRed(e.getMessage());
         }
         return null;
+    }
+
+    /**
+     * tell stopped
+     *
+     * @return stopped information
+     */
+    public String tellStopped() {
+        try {
+            List<Map<String, Object>> items = ariaService.tellStopped(0, 10);
+            for (Map<String, Object> item : items) {
+                printStatus(item);
+                System.out.println("========================");
+            }
+            return null;
+        } catch (Exception e) {
+            log.error("tellStopped", e);
+            return wrappedAsRed(e.getMessage());
+        }
+    }
+
+    /**
+     * tell stopped
+     *
+     * @return stopped information
+     */
+    public String tellWaiting() {
+        try {
+            List<Map<String, Object>> items = ariaService.tellWaiting(0, 10);
+            for (Map<String, Object> item : items) {
+                printStatus(item);
+                System.out.println("========================");
+            }
+            return null;
+        } catch (Exception e) {
+            log.error("tellWaiting", e);
+            return wrappedAsRed(e.getMessage());
+        }
+    }
+
+    /**
+     * tell stopped
+     *
+     * @return stopped information
+     */
+    public String tellActive() {
+        try {
+            List<Map<String, Object>> items = ariaService.tellActive();
+            for (Map<String, Object> item : items) {
+                printStatus(item);
+                System.out.println("========================");
+            }
+            return null;
+        } catch (Exception e) {
+            log.error("tellActive", e);
+            return wrappedAsRed(e.getMessage());
+        }
     }
 
     /**
