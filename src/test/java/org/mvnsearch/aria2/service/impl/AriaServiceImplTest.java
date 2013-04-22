@@ -3,6 +3,8 @@ package org.mvnsearch.aria2.service.impl;
 import junit.framework.TestCase;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * aria service implementation test
@@ -32,7 +34,7 @@ public class AriaServiceImplTest extends TestCase {
      * @throws Exception exception
      */
     public void testAddUri() throws Exception {
-        String uri = "http://cdntest.aliyun.com/faxianla/metal/m928875-1366299082120.jpg";
+        String uri = "http://cdntest.aliyun.com/faxianla/metal/m937309-1366561245640.jpg";
         String gid = ariaService.addUri(uri, Collections.emptyMap());
         System.out.println(gid);
     }
@@ -45,5 +47,15 @@ public class AriaServiceImplTest extends TestCase {
     public void testTellStatus() throws Exception {
         String gid = "addf295d43548732";
         ariaService.tellStatus(gid);
+    }
+
+    /**
+     * test to tell stopped
+     *
+     * @throws Exception exception
+     */
+    public void testTellStopped() throws Exception {
+        List<Map<String, Object>> queue = ariaService.tellStopped(0, 10);
+        System.out.println(queue.size());
     }
 }
