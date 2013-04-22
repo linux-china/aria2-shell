@@ -1,5 +1,6 @@
 package org.mvnsearch.aria2.service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -63,6 +64,33 @@ public interface AriaService {
      * @return status information
      */
     public Map<String, Object> tellStatus(String gid) throws Exception;
+
+    /**
+     * tell waiting
+     *
+     * @param offset     offset
+     * @param maxResults max results
+     * @return gid list
+     */
+    public List<Map<String, Object>> tellWaiting(int offset, int maxResults) throws Exception;
+
+    /**
+     * tell active
+     *
+     * @return active list
+     * @throws Exception exception
+     */
+    public List<Map<String, Object>> tellActive() throws Exception;
+
+    /**
+     * tell stopped
+     *
+     * @param offset     offset
+     * @param maxResults max results
+     * @return stopped list
+     * @throws Exception exception
+     */
+    public List<Map<String, Object>> tellStopped(int offset, int maxResults) throws Exception;
 
     /**
      * get global stat

@@ -117,6 +117,61 @@ public class AriaServiceImpl implements AriaService {
     }
 
     /**
+     * tell waiting
+     *
+     * @param offset     offset
+     * @param maxResults max results
+     * @return gid list
+     */
+    public List<Map<String, Object>> tellWaiting(int offset, int maxResults) throws Exception {
+        List<Object> params = constructParams(offset, maxResults);
+        Object[] results = (Object[]) client.execute("aria2.tellWaiting", params);
+        return convertToList(results);
+    }
+
+    /**
+     * tell active
+     *
+     * @return active list
+     * @throws Exception exception
+     */
+    public List<Map<String, Object>> tellActive() throws Exception {
+        Object[] results = (Object[]) client.execute("aria2.tellActive", emptyParams);
+        return convertToList(results);
+    }
+
+    /**
+     * tell stopped
+     *
+     * @param offset     offset
+     * @param maxResults max results
+     * @return stopped list
+     * @throws Exception exception
+     */
+    public List<Map<String, Object>> tellStopped(int offset, int maxResults) throws Exception {
+        List<Object> params = constructParams(offset, maxResults);
+        Object[] results = (Object[]) client.execute("aria2.tellStopped", params);
+        return convertToList(results);
+    }
+
+    /**
+     * convert to list
+     *
+     * @param results results
+     * @return item list
+     */
+    private List<Map<String, Object>> convertToList(Object[] results) {
+        if (results != null && results.length > 0) {
+            List<Map<String, Object>> items = new ArrayList<Map<String, Object>>();
+            for (Object result : results) {
+                items.add((Map<String, Object>) result);
+            }
+            return items;
+        }
+        return Collections.emptyList();
+    }
+
+    /**
      * get global stat
      * <pre>
      * numActive:0
