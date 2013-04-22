@@ -43,7 +43,7 @@ public class AriaShellOperationCommands implements CommandMarker {
      */
     @PostConstruct
     public void init() {
-
+        connect("localhost", "6800");
     }
 
     /**
@@ -82,7 +82,7 @@ public class AriaShellOperationCommands implements CommandMarker {
             for (Map.Entry<String, String> entry : globalStat.entrySet()) {
                 builder.append(entry.getKey() + ":" + entry.getValue() + LINE_SEPARATOR);
             }
-            return builder.toString();
+            return builder.toString().trim();
         } catch (Exception e) {
             log.error("connect", e);
             return wrappedAsRed(e.getMessage());
