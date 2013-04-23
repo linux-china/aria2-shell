@@ -18,6 +18,20 @@ public interface AriaService {
     public void connect(String host, int port) throws Exception;
 
     /**
+     * get host
+     *
+     * @return host
+     */
+    public String getHost();
+
+    /**
+     * get port
+     *
+     * @return port
+     */
+    public int getPort();
+
+    /**
      * get xml rpc url
      *
      * @return xml rpc url

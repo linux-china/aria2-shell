@@ -53,6 +53,24 @@ public class AriaServiceImpl implements AriaService {
     }
 
     /**
+     * get host
+     *
+     * @return host
+     */
+    public String getHost() {
+        return host;
+    }
+
+    /**
+     * get port
+     *
+     * @return port
+     */
+    public int getPort() {
+        return port;
+    }
+
+    /**
      * get xml rpc url
      *
      * @return xml rpc url
