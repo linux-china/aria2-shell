@@ -1,6 +1,9 @@
 package org.mvnsearch.aria2.shell.commands;
 
+import org.apache.commons.lang3.StringUtils;
+import org.mvnsearch.aria2.service.AriaService;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.shell.plugin.support.DefaultPromptProvider;
@@ -23,7 +26,11 @@ public class AriaShellPromptProvider extends DefaultPromptProvider implements In
      * symbol
      */
     public static String symbol = "#";
-
+    /**
+     * aria service
+     */
+    @Autowired
+    private AriaService ariaService;
 
     /**
      * init method
@@ -44,7 +51,11 @@ public class AriaShellPromptProvider extends DefaultPromptProvider implements In
      */
     @Override
     public String getPrompt() {
-        return "[" + prompt + "]" + symbol;
+        if (StringUtils.isEmpty(ariaService.getHost())) {
+            return "[" + prompt + "]" + symbol;
+        } else {
+            return "[" + ariaService.getHost() + ":" + ariaService.getPort() + "]" + symbol;
+        }
     }
 
     /**
