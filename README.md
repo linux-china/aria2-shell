@@ -6,8 +6,18 @@ aria2 can be manipulated via built-in JSON-RPC and XML-RPC interfaces.
 aria shell is command line tool to interact with running aria by XML-RPC
 
 ### aria xml-rpc daemon
+create a file named as aria2.conf with following code:
 
-      aria2c --enable-rpc --rpc-allow-origin-all --log-level debug -l /tmp/aria.log -d /tmp -c -D
+      enable-rpc=true
+      rpc-allow-origin-all=true
+      log-level=debug
+      log=/tmp/aria.log
+      dir=/tmp
+      daemon=true
+Then running aria2c --conf-path ./aria2.conf
+You can running by command line:
+
+      aria2c --enable-rpc --rpc-allow-origin-all --log-level debug -l /tmp/aria.log -d /tmp  -D
 
 ### xml-rpc
 aria shell use apache xml-rpc package to interact with aria xml-rpc service.
