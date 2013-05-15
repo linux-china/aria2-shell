@@ -175,6 +175,7 @@ public class AriaShellOperationCommands implements CommandMarker {
      *
      * @return stopped information
      */
+    @CliCommand(value = "stopped", help = "Stopped Queue")
     public String tellStopped() {
         try {
             System.out.println("==============Stopped==========");
@@ -195,6 +196,7 @@ public class AriaShellOperationCommands implements CommandMarker {
      *
      * @return stopped information
      */
+    @CliCommand(value = "waiting", help = "Waiting Queue")
     public String tellWaiting() {
         try {
             System.out.println("==============Waiting==========");
@@ -215,6 +217,7 @@ public class AriaShellOperationCommands implements CommandMarker {
      *
      * @return stopped information
      */
+    @CliCommand(value = "active", help = "Active Queue")
     public String tellActive() {
         try {
             System.out.println("==============Active==========");
