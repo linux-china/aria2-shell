@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -101,7 +102,7 @@ public class AriaShellOperationCommands implements CommandMarker {
             String gid = ariaService.addUri(url, Collections.emptyMap());
             return "Download added and GID is " + gid;
         } catch (Exception e) {
-            log.error("connect", e);
+            log.error("add", e);
             return wrappedAsRed(e.getMessage());
         }
     }
