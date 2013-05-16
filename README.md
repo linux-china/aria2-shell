@@ -28,6 +28,7 @@ Aria2 shell use apache xml-rpc package to interact with aria xml-rpc service.
 
 ### RoadMap
 
+*  add hint to start aria2 during startup
 *  display queue information: Waiting, Running and Done
 *  print pretty gid status
 *  start aria2c from java
