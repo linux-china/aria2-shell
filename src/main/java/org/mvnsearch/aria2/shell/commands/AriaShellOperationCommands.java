@@ -264,11 +264,9 @@ public class AriaShellOperationCommands implements CommandMarker {
     public String stopAria2() {
         try {
             List<String> args = new ArrayList<String>();
+            args.add("killall");
+            args.add("-9");
             args.add("aria2c");
-            args.add("--enable-rpc");
-            args.add("--rpc-allow-origin-all");
-            args.add("--dir=/tmp/aria");
-            args.add("--daemon=true");
             executeCommand(args.toArray(new String[args.size()]));
             return "Aria2 Stopped";
         } catch (Exception e) {
