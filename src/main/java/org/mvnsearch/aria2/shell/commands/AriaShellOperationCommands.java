@@ -13,10 +13,10 @@ import org.springframework.shell.core.annotation.CliOption;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.*;
 
 /**
  * Aria Shell operation commands
@@ -234,6 +234,50 @@ public class AriaShellOperationCommands implements CommandMarker {
     }
 
     /**
+     * start aria2
+     *
+     * @return start aria2
+     */
+    @CliCommand(value = "start", help = "Start aria2c")
+    public String startAria2() {
+        try {
+            List<String> args = new ArrayList<String>();
+            args.add("aria2c");
+            args.add("--enable-rpc");
+            args.add("--rpc-allow-origin-all");
+            args.add("--dir=/tmp/aria");
+            args.add("--daemon=true");
+            executeCommand(args.toArray(new String[args.size()]));
+            return connect("localhost", "6800");
+        } catch (Exception e) {
+            log.error("start", e);
+            return wrappedAsRed(e.getMessage());
+        }
+    }
+
+    /**
+     * stop aria2
+     *
+     * @return stop status
+     */
+    @CliCommand(value = "stop", help = "Start aria2c")
+    public String stopAria2() {
+        try {
+            List<String> args = new ArrayList<String>();
+            args.add("aria2c");
+            args.add("--enable-rpc");
+            args.add("--rpc-allow-origin-all");
+            args.add("--dir=/tmp/aria");
+            args.add("--daemon=true");
+            executeCommand(args.toArray(new String[args.size()]));
+            return "Aria2 Stopped";
+        } catch (Exception e) {
+            log.error("start", e);
+            return wrappedAsRed(e.getMessage());
+        }
+    }
+
+    /**
      * wrapped as red with Jansi
      *
      * @param text text
@@ -252,6 +296,27 @@ public class AriaShellOperationCommands implements CommandMarker {
      */
     private String wrappedAsYellow(String text) {
         return Ansi.ansi().fg(Ansi.Color.YELLOW).a(text).toString();
+    }
+
+    /**
+     * execute command
+     *
+     * @param args args
+     * @return output
+     * @throws Exception exception
+     */
+    private String executeCommand(String[] args) throws Exception {
+        Process process = new ProcessBuilder(args).start();
+        InputStream is = process.getInputStream();
+        InputStreamReader isr = new InputStreamReader(is);
+        BufferedReader br = new BufferedReader(isr);
+        List<String> lines = new ArrayList<String>();
+        String line;
+        while ((line = br.readLine()) != null) {
+            lines.add(line);
+        }
+        process.destroy();
+        return StringUtils.join(lines, "\r\n");
     }
 
 }
