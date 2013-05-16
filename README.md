@@ -25,3 +25,10 @@ Aria2 shell use apache xml-rpc package to interact with aria xml-rpc service.
 ### How to debug app
 
     java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -jar target/aria2-shell-1.0.0-SNAPSHOT.jar
+
+### RoadMap
+
+*  display queue information: Waiting, Running and Done
+*  print pretty gid status
+*  start aria2c from java
+*  Web Aria2 with bootstrap UI
