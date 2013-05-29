@@ -245,6 +245,7 @@ public class AriaShellOperationCommands implements CommandMarker {
             args.add("aria2c");
             args.add("--enable-rpc");
             args.add("--rpc-allow-origin-all");
+            args.add("--rpc-listen-all");
             args.add("--dir=/tmp/aria");
             args.add("--daemon=true");
             executeCommand(args.toArray(new String[args.size()]));
