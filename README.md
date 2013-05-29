@@ -17,7 +17,7 @@ create a file named as aria2.conf with following code:
 Then running aria2c --conf-path ./aria2.conf
 You can running by command line:
 
-      aria2c --enable-rpc --rpc-allow-origin-all --log-level debug -l /tmp/aria.log -d /tmp  -D
+      aria2c --enable-rpc --rpc-allow-origin-all --rpc-listen-all --log-level debug -l /tmp/aria.log -d /tmp  -D
 
 ### xml-rpc
 Aria2 shell use apache xml-rpc package to interact with aria xml-rpc service.
