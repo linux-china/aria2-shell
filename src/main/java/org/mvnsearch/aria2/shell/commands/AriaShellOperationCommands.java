@@ -222,7 +222,7 @@ public class AriaShellOperationCommands implements CommandMarker {
             } else {
                 Map<String, Object> status = ariaService.tellStatus(gid);
                 if (status != null) {
-                    printStatus(status);
+                    printDetail(status);
                 }
             }
         } catch (Exception e) {
@@ -240,12 +240,8 @@ public class AriaShellOperationCommands implements CommandMarker {
     @CliCommand(value = "stopped", help = "Stopped Queue")
     public String tellStopped() {
         try {
-            System.out.println("==============Stopped==========");
             List<Map<String, Object>> items = ariaService.tellStopped(0, 10);
-            for (Map<String, Object> item : items) {
-                printStatus(item);
-                System.out.println("==============================");
-            }
+            printTasks("Stopped", items);
             return null;
         } catch (Exception e) {
             log.error("tellStopped", e);
@@ -261,14 +257,8 @@ public class AriaShellOperationCommands implements CommandMarker {
     @CliCommand(value = "errors", help = "List of errors")
     public String tellErrors() {
         try {
-            System.out.println("==============Errors==========");
             List<Map<String, Object>> items = ariaService.tellStopped(0, 100);
-            for (Map<String, Object> item : items) {
-                if (item.get("status").equals("error")) {
-                    printStatus(item);
-                    System.out.println("==============================");
-                }
-            }
+            printTasks("Errors", items);
             return null;
         } catch (Exception e) {
             log.error("errors", e);
@@ -284,12 +274,8 @@ public class AriaShellOperationCommands implements CommandMarker {
     @CliCommand(value = "paused", help = "List of paused downloads")
     public String tellWaiting() {
         try {
-            System.out.println("==============Paused==========");
             List<Map<String, Object>> items = ariaService.tellWaiting(0, 10);
-            for (Map<String, Object> item : items) {
-                printStatus(item);
-                System.out.println("========================");
-            }
+            printTasks("Paused", items);
             return null;
         } catch (Exception e) {
             log.error("tellWaiting", e);
@@ -305,12 +291,8 @@ public class AriaShellOperationCommands implements CommandMarker {
     @CliCommand(value = "list", help = "List of active downloads")
     public String tellActive() {
         try {
-            System.out.println("==============Active==========");
             List<Map<String, Object>> items = ariaService.tellActive();
-            for (Map<String, Object> item : items) {
-                printStatus(item);
-                System.out.println("============================");
-            }
+            printTasks("Active", items);
             return null;
         } catch (Exception e) {
             log.error("tellActive", e);
@@ -385,10 +367,33 @@ public class AriaShellOperationCommands implements CommandMarker {
     /**
      * print status
      *
-     * @param task download task
+     * @param tasks download task
      */
     @SuppressWarnings("unchecked")
-    private void printStatus(Map<String, Object> task) {
+    private void printTasks(String title, List<Map<String, Object>> tasks) {
+        if (tasks == null || tasks.isEmpty()) {
+            System.out.println("No task found!");
+            return;
+        }
+        for (Map<String, Object> task : tasks) {
+            System.out.println("==============" + title + "==========");
+            System.out.println("gid:" + task.get("gid"));
+            System.out.println("status:" + task.get("status"));
+            Map<String, Object> files = (Map<String, Object>) ((Object[]) task.get("files"))[0];
+            System.out.println("path:" + files.get("path"));
+            Map<String, Object> uriInfo = (Map<String, Object>) ((Object[]) files.get("uris"))[0];
+            System.out.println("path:" + uriInfo.get("uri"));
+            System.out.println("========================");
+        }
+    }
+
+    /**
+     * print detail information
+     *
+     * @param task task
+     */
+    @SuppressWarnings("unchecked")
+    private void printDetail(Map<String, Object> task) {
         Object[] files = (Object[]) task.get("files");
         System.out.println("Files:");
         for (Object temp : files) {
