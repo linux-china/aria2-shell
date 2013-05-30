@@ -346,7 +346,7 @@ public class AriaShellOperationCommands implements CommandMarker {
      *
      * @return stop status
      */
-    @CliCommand(value = "stop", help = "Start aria2c")
+    @CliCommand(value = "stop", help = "Stop aria2c")
     public String stopAria2() {
         try {
             List<String> args = new ArrayList<String>();
