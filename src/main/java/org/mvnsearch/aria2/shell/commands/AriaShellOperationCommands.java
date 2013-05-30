@@ -385,11 +385,11 @@ public class AriaShellOperationCommands implements CommandMarker {
     /**
      * print status
      *
-     * @param status status
+     * @param task download task
      */
     @SuppressWarnings("unchecked")
-    private void printStatus(Map<String, Object> status) {
-        Object[] files = (Object[]) status.get("files");
+    private void printStatus(Map<String, Object> task) {
+        Object[] files = (Object[]) task.get("files");
         System.out.println("Files:");
         for (Object temp : files) {
             Map<String, Object> file = (Map<String, Object>) temp;
@@ -409,7 +409,7 @@ public class AriaShellOperationCommands implements CommandMarker {
             }
         }
         System.out.println("Basic:");
-        for (Map.Entry<String, Object> entry : status.entrySet()) {
+        for (Map.Entry<String, Object> entry : task.entrySet()) {
             if (!entry.getKey().equals("files")) {
                 System.out.println("  " + entry.getKey() + ":" + entry.getValue());
             }
