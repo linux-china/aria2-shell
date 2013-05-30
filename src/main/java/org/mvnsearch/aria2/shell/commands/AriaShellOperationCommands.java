@@ -92,6 +92,54 @@ public class AriaShellOperationCommands implements CommandMarker {
     }
 
     /**
+     * Pause all the active downloads
+     *
+     * @return message
+     */
+    @CliCommand(value = "sleep", help = "Pause all the active downloads")
+    public String sleep() {
+        try {
+            ariaService.sleep();
+            return "Aria sleeped!";
+        } catch (Exception e) {
+            log.error("sleep", e);
+            return wrappedAsRed(e.getMessage());
+        }
+    }
+
+    /**
+     * Pause all the active downloads
+     *
+     * @return message
+     */
+    @CliCommand(value = "wake", help = "Resume all the paused downloads")
+    public String wake() {
+        try {
+            ariaService.sleep();
+            return "Aria waked!";
+        } catch (Exception e) {
+            log.error("wake", e);
+            return wrappedAsRed(e.getMessage());
+        }
+    }
+
+    /**
+     * Clear the list of stopped downloads and errors
+     *
+     * @return message
+     */
+    @CliCommand(value = "purge", help = "Clear the list of stopped downloads and errors")
+    public String purge() {
+        try {
+            ariaService.sleep();
+            return "Aria purged!";
+        } catch (Exception e) {
+            log.error("purge", e);
+            return wrappedAsRed(e.getMessage());
+        }
+    }
+
+    /**
      * add download url
      *
      * @return message
@@ -152,40 +200,6 @@ public class AriaShellOperationCommands implements CommandMarker {
         } catch (Exception e) {
             log.error("resume", e);
             return wrappedAsRed(e.getMessage());
-        }
-    }
-
-    /**
-     * print status
-     *
-     * @param status status
-     */
-    @SuppressWarnings("unchecked")
-    private void printStatus(Map<String, Object> status) {
-        Object[] files = (Object[]) status.get("files");
-        System.out.println("Files:");
-        for (Object temp : files) {
-            Map<String, Object> file = (Map<String, Object>) temp;
-            for (Map.Entry<String, Object> entry : file.entrySet()) {
-                Object value = entry.getValue();
-                if (value instanceof String) {
-                    System.out.println("  " + entry.getKey() + ":" + value);
-                }
-            }
-            System.out.println("  uris:");
-            Object[] uris = (Object[]) file.get("uris");
-            for (Object temp2 : uris) {
-                Map<String, String> uri = (Map<String, String>) temp2;
-                for (Map.Entry<String, String> entry2 : uri.entrySet()) {
-                    System.out.println("    " + entry2.getKey() + ":" + entry2.getValue());
-                }
-            }
-        }
-        System.out.println("Basic:");
-        for (Map.Entry<String, Object> entry : status.entrySet()) {
-            if (!entry.getKey().equals("files")) {
-                System.out.println("  " + entry.getKey() + ":" + entry.getValue());
-            }
         }
     }
 
@@ -263,14 +277,14 @@ public class AriaShellOperationCommands implements CommandMarker {
     }
 
     /**
-     * info stopped
+     * info paused
      *
-     * @return stopped information
+     * @return paused information
      */
-    @CliCommand(value = "waiting", help = "Waiting Queue")
+    @CliCommand(value = "paused", help = "List of paused downloads")
     public String tellWaiting() {
         try {
-            System.out.println("==============Waiting==========");
+            System.out.println("==============Paused==========");
             List<Map<String, Object>> items = ariaService.tellWaiting(0, 10);
             for (Map<String, Object> item : items) {
                 printStatus(item);
@@ -288,7 +302,7 @@ public class AriaShellOperationCommands implements CommandMarker {
      *
      * @return stopped information
      */
-    @CliCommand(value = "list", help = "Active Queue")
+    @CliCommand(value = "list", help = "List of active downloads")
     public String tellActive() {
         try {
             System.out.println("==============Active==========");
@@ -366,6 +380,40 @@ public class AriaShellOperationCommands implements CommandMarker {
      */
     private String wrappedAsYellow(String text) {
         return Ansi.ansi().fg(Ansi.Color.YELLOW).a(text).toString();
+    }
+
+    /**
+     * print status
+     *
+     * @param status status
+     */
+    @SuppressWarnings("unchecked")
+    private void printStatus(Map<String, Object> status) {
+        Object[] files = (Object[]) status.get("files");
+        System.out.println("Files:");
+        for (Object temp : files) {
+            Map<String, Object> file = (Map<String, Object>) temp;
+            for (Map.Entry<String, Object> entry : file.entrySet()) {
+                Object value = entry.getValue();
+                if (value instanceof String) {
+                    System.out.println("  " + entry.getKey() + ":" + value);
+                }
+            }
+            System.out.println("  uris:");
+            Object[] uris = (Object[]) file.get("uris");
+            for (Object temp2 : uris) {
+                Map<String, String> uri = (Map<String, String>) temp2;
+                for (Map.Entry<String, String> entry2 : uri.entrySet()) {
+                    System.out.println("    " + entry2.getKey() + ":" + entry2.getValue());
+                }
+            }
+        }
+        System.out.println("Basic:");
+        for (Map.Entry<String, Object> entry : status.entrySet()) {
+            if (!entry.getKey().equals("files")) {
+                System.out.println("  " + entry.getKey() + ":" + entry.getValue());
+            }
+        }
     }
 
     /**
