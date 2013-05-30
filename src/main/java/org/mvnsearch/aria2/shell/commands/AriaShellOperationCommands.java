@@ -209,7 +209,7 @@ public class AriaShellOperationCommands implements CommandMarker {
             }
             return null;
         } catch (Exception e) {
-            log.error("tellStopped", e);
+            log.error("errors", e);
             return wrappedAsRed(e.getMessage());
         }
     }
