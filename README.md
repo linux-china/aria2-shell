@@ -8,9 +8,11 @@ Aria2 shell is command line tool to interact with running aria by XML-RPC
 ### Aria2 xml-rpc daemon
 create a file named as aria2.conf with following code:
 
+      max-connection-per-server=5
       enable-rpc=true
       rpc-allow-origin-all=true
-      log-level=debug
+      rpc-listen-all=true
+      log-level=error
       log=/tmp/aria.log
       dir=/tmp
       daemon=true
@@ -22,14 +24,16 @@ You can running by command line:
 ### xml-rpc
 Aria2 shell use apache xml-rpc package to interact with aria xml-rpc service.
 
+
+### Commands
+Please use help to view all commands.
+
+* add http://xxxx.com/yyyy : download file
+
 ### How to debug app
 
     java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -jar target/aria2-shell-1.0.0-SNAPSHOT.jar
 
 ### RoadMap
 
-*  add hint to start aria2 during startup
-*  display queue information: Waiting, Running and Done
-*  print pretty gid status
-*  start aria2c from java
 *  Web Aria2 with bootstrap UI
