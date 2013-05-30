@@ -76,7 +76,7 @@ public class AriaShellOperationCommands implements CommandMarker {
      *
      * @return global state
      */
-    @CliCommand(value = "stats", help = "Display global state")
+    @CliCommand(value = "stats", help = "Output download statistics")
     public String stats() {
         try {
             StringBuilder builder = new StringBuilder();
@@ -86,7 +86,7 @@ public class AriaShellOperationCommands implements CommandMarker {
             }
             return builder.toString().trim();
         } catch (Exception e) {
-            log.error("connect", e);
+            log.error("stats", e);
             return wrappedAsRed(e.getMessage());
         }
     }
@@ -144,7 +144,7 @@ public class AriaShellOperationCommands implements CommandMarker {
      *
      * @return message
      */
-    @CliCommand(value = "add", help = "Add download url")
+    @CliCommand(value = "add", help = "Download the given url")
     public String add(@CliOption(key = {""}, mandatory = true, help = "URL") String url) {
         try {
             String gid = ariaService.addUri(url, Collections.emptyMap());
@@ -160,7 +160,7 @@ public class AriaShellOperationCommands implements CommandMarker {
      *
      * @return message
      */
-    @CliCommand(value = "remove", help = "Remove gid")
+    @CliCommand(value = "remove", help = "Remove the download corresponding to the given GID")
     public String remove(@CliOption(key = {""}, mandatory = true, help = "gid") String gid) {
         try {
             ariaService.remove(gid);
@@ -176,7 +176,7 @@ public class AriaShellOperationCommands implements CommandMarker {
      *
      * @return message
      */
-    @CliCommand(value = "pause", help = "Pause download")
+    @CliCommand(value = "pause", help = "Pause the download corresponding to the given GID")
     public String pause(@CliOption(key = {""}, mandatory = true, help = "gid") String gid) {
         try {
             ariaService.pause(gid);
@@ -192,7 +192,7 @@ public class AriaShellOperationCommands implements CommandMarker {
      *
      * @return message
      */
-    @CliCommand(value = "resume", help = "Resume download")
+    @CliCommand(value = "resume", help = "Resume the download corresponding to the given GID")
     public String resume(@CliOption(key = {""}, mandatory = true, help = "gid") String gid) {
         try {
             ariaService.unpause(gid);
@@ -258,7 +258,7 @@ public class AriaShellOperationCommands implements CommandMarker {
      *
      * @return stopped information
      */
-    @CliCommand(value = "errors", help = "Errors")
+    @CliCommand(value = "errors", help = "List of errors")
     public String tellErrors() {
         try {
             System.out.println("==============Errors==========");
