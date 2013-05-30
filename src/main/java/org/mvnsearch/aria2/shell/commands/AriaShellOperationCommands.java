@@ -115,6 +115,26 @@ public class AriaShellOperationCommands implements CommandMarker {
     }
 
     /**
+     * display global option information
+     *
+     * @return version information
+     */
+    @CliCommand(value = "options", help = "Output global options")
+    public String options() {
+        try {
+            StringBuilder builder = new StringBuilder();
+            Map<String, Object> version = ariaService.getGlobalOption();
+            for (Map.Entry<String, Object> entry : version.entrySet()) {
+                builder.append(entry.getKey() + ": " + entry.getValue() + SystemUtils.LINE_SEPARATOR);
+            }
+            return builder.toString().trim();
+        } catch (Exception e) {
+            log.error("options", e);
+            return wrappedAsRed(e.getMessage());
+        }
+    }
+
+    /**
      * Pause all the active downloads
      *
      * @return message
@@ -333,6 +353,7 @@ public class AriaShellOperationCommands implements CommandMarker {
         try {
             List<String> args = new ArrayList<String>();
             args.add("aria2c");
+            args.add("--max-connection-per-server=5");
             args.add("--enable-rpc");
             args.add("--rpc-allow-origin-all");
             args.add("--rpc-listen-all");
