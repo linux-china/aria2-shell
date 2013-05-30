@@ -227,6 +227,16 @@ public class AriaServiceImpl implements AriaService {
     }
 
     /**
+     * get version information
+     *
+     * @return version information
+     * @throws Exception exception
+     */
+    public Map<String, Object> version() throws Exception {
+        return (Map<String, Object>) client.execute("aria2.getVersion", emptyParams);
+    }
+
+    /**
      * construct params
      *
      * @param params params

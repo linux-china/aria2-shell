@@ -133,5 +133,13 @@ public interface AriaService {
     /**
      * Clear the list of stopped downloads and errors
      */
-    public void purge()throws Exception;
+    public void purge() throws Exception;
+
+    /**
+     * get version information
+     *
+     * @return version information
+     * @throws Exception exception
+     */
+    public Map<String, Object> version() throws Exception;
 }
