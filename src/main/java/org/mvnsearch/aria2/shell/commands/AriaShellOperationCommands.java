@@ -53,7 +53,7 @@ public class AriaShellOperationCommands implements CommandMarker {
      *
      * @return result
      */
-    @CliCommand(value = "connect", help = "Connect with aria xml-rpc")
+    @CliCommand(value = "connect", help = "Connect with aria2 through xml-rpc")
     public String connect(@CliOption(key = {"host"}, mandatory = false, help = "Host") String host,
                           @CliOption(key = {"port"}, mandatory = false, help = "Port") String port) {
         try {
