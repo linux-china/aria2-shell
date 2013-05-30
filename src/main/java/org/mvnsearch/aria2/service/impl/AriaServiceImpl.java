@@ -98,7 +98,8 @@ public class AriaServiceImpl implements AriaService {
      * @throws Exception exception
      */
     public void remove(String gid) throws Exception {
-
+        List<Object> params = constructParams(gid);
+        client.execute("aria2.remove", params);
     }
 
     /**
