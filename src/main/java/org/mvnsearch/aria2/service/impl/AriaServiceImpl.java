@@ -124,7 +124,7 @@ public class AriaServiceImpl implements AriaService {
     }
 
     /**
-     * tell download status
+     * info download status
      *
      * @param gid gid
      * @return status information
@@ -135,7 +135,7 @@ public class AriaServiceImpl implements AriaService {
     }
 
     /**
-     * tell waiting
+     * info waiting
      *
      * @param offset     offset
      * @param maxResults max results
@@ -148,7 +148,7 @@ public class AriaServiceImpl implements AriaService {
     }
 
     /**
-     * tell active
+     * info active
      *
      * @return active list
      * @throws Exception exception
@@ -159,7 +159,7 @@ public class AriaServiceImpl implements AriaService {
     }
 
     /**
-     * tell stopped
+     * info stopped
      *
      * @param offset     offset
      * @param maxResults max results

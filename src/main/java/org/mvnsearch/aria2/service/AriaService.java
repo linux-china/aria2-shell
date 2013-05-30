@@ -72,7 +72,7 @@ public interface AriaService {
     public void unpause(String gid) throws Exception;
 
     /**
-     * tell download status
+     * info download status
      *
      * @param gid gid
      * @return status information
@@ -80,7 +80,7 @@ public interface AriaService {
     public Map<String, Object> tellStatus(String gid) throws Exception;
 
     /**
-     * tell waiting
+     * info waiting
      *
      * @param offset     offset
      * @param maxResults max results
@@ -89,7 +89,7 @@ public interface AriaService {
     public List<Map<String, Object>> tellWaiting(int offset, int maxResults) throws Exception;
 
     /**
-     * tell active
+     * info active
      *
      * @return active list
      * @throws Exception exception
@@ -97,7 +97,7 @@ public interface AriaService {
     public List<Map<String, Object>> tellActive() throws Exception;
 
     /**
-     * tell stopped
+     * info stopped
      *
      * @param offset     offset
      * @param maxResults max results
