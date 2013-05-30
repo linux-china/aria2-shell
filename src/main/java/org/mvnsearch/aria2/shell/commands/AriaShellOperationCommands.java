@@ -7,6 +7,8 @@ import org.mvnsearch.aria2.service.AriaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.shell.core.CommandMarker;
 import org.springframework.shell.core.annotation.CliCommand;
 import org.springframework.shell.core.annotation.CliOption;
@@ -25,6 +27,7 @@ import java.util.*;
  */
 @SuppressWarnings("StringConcatenationInsideStringBufferAppend")
 @Component
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class AriaShellOperationCommands implements CommandMarker {
     /**
      * log
@@ -34,6 +37,10 @@ public class AriaShellOperationCommands implements CommandMarker {
      * The platform-specific line separator.
      */
     public static final String LINE_SEPARATOR = SystemUtils.LINE_SEPARATOR;
+    /**
+     * welcome hint
+     */
+    public static String WELCOME_HINT = "";
     /**
      * aria service
      */
@@ -45,7 +52,11 @@ public class AriaShellOperationCommands implements CommandMarker {
      */
     @PostConstruct
     public void init() {
-        connect("localhost", "6800");
+        String message = connect("localhost", "6800");
+        if (message.contains("refused")) {
+            WELCOME_HINT = SystemUtils.LINE_SEPARATOR +
+                    "aria2 not started. Please use 'start' to start internal agent or 'connect' to the dedicated agent";
+        }
     }
 
     /**
