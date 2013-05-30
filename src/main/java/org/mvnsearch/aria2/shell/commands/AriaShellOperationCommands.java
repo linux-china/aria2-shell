@@ -380,7 +380,9 @@ public class AriaShellOperationCommands implements CommandMarker {
             System.out.println("gid: " + task.get("gid"));
             System.out.println("status: " + task.get("status"));
             Map<String, Object> files = (Map<String, Object>) ((Object[]) task.get("files"))[0];
-            System.out.println("path: " + files.get("path"));
+            if (files.containsKey("path")) {
+                System.out.println("path: " + files.get("path"));
+            }
             Map<String, Object> uriInfo = (Map<String, Object>) ((Object[]) files.get("uris"))[0];
             System.out.println("uri: " + uriInfo.get("uri"));
             System.out.println("========================");
