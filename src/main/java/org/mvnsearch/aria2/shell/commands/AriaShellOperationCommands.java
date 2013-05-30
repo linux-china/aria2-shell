@@ -64,6 +64,7 @@ public class AriaShellOperationCommands implements CommandMarker {
                 port = "6800";
             }
             ariaService.connect(host, Integer.valueOf(port));
+            ariaService.getGlobalStat();
         } catch (Exception e) {
             log.error("connect", e);
             return wrappedAsRed(e.getMessage());
