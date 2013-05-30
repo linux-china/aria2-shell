@@ -92,6 +92,29 @@ public class AriaShellOperationCommands implements CommandMarker {
     }
 
     /**
+     * display version information
+     *
+     * @return version information
+     */
+    @CliCommand(value = "version", help = "Output aria version information")
+    public String version() {
+        try {
+            StringBuilder builder = new StringBuilder();
+            Map<String, Object> version = ariaService.version();
+            builder.append("Version: " + version.get("version") + SystemUtils.LINE_SEPARATOR);
+            Object[] features = (Object[]) version.get("enabledFeatures");
+            builder.append("Features:" + SystemUtils.LINE_SEPARATOR);
+            for (Object feature : features) {
+                builder.append("  " + feature + SystemUtils.LINE_SEPARATOR);
+            }
+            return builder.toString().trim();
+        } catch (Exception e) {
+            log.error("stats", e);
+            return wrappedAsRed(e.getMessage());
+        }
+    }
+
+    /**
      * Pause all the active downloads
      *
      * @return message
