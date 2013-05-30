@@ -55,7 +55,7 @@ public class AriaShellOperationCommands implements CommandMarker {
         String message = connect("localhost", "6800");
         if (message.contains("refused")) {
             WELCOME_HINT = SystemUtils.LINE_SEPARATOR +
-                    "aria2 not started. Please use 'start' to start internal agent or 'connect' to the dedicated agent";
+                    wrappedAsRed("aria2 not started. Please use 'start' to start internal agent or 'connect' to the dedicated agent.");
         }
     }
 
