@@ -92,7 +92,7 @@ public class AriaShellOperationCommands implements CommandMarker {
     }
 
     /**
-     * download oss object
+     * add download url
      *
      * @return message
      */
@@ -103,6 +103,54 @@ public class AriaShellOperationCommands implements CommandMarker {
             return "Download added and GID is " + gid;
         } catch (Exception e) {
             log.error("add", e);
+            return wrappedAsRed(e.getMessage());
+        }
+    }
+
+    /**
+     * remove download
+     *
+     * @return message
+     */
+    @CliCommand(value = "remove", help = "Remove gid")
+    public String remove(@CliOption(key = {""}, mandatory = true, help = "gid") String gid) {
+        try {
+            ariaService.remove(gid);
+            return "gid: " + gid + " removed!";
+        } catch (Exception e) {
+            log.error("remove", e);
+            return wrappedAsRed(e.getMessage());
+        }
+    }
+
+    /**
+     * pause download
+     *
+     * @return message
+     */
+    @CliCommand(value = "pause", help = "Pause download")
+    public String pause(@CliOption(key = {""}, mandatory = true, help = "gid") String gid) {
+        try {
+            ariaService.pause(gid);
+            return "gid: " + gid + " paused!";
+        } catch (Exception e) {
+            log.error("pause", e);
+            return wrappedAsRed(e.getMessage());
+        }
+    }
+
+    /**
+     * resume download
+     *
+     * @return message
+     */
+    @CliCommand(value = "resume", help = "Resume download")
+    public String resume(@CliOption(key = {""}, mandatory = true, help = "gid") String gid) {
+        try {
+            ariaService.unpause(gid);
+            return "gid: " + gid + " resumed!";
+        } catch (Exception e) {
+            log.error("resume", e);
             return wrappedAsRed(e.getMessage());
         }
     }
