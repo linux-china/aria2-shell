@@ -58,7 +58,7 @@ public class AriaShellBannerProvider extends DefaultBannerProvider implements Co
      * @return welcome message
      */
     public String getWelcomeMessage() {
-        return "Welcome to Aria Shell Console! Version: " + getVersion();
+        return "Welcome to Aria Shell Console! Version: " + getVersion() + AriaShellOperationCommands.WELCOME_HINT;
     }
 
     /**
