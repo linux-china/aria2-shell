@@ -76,8 +76,8 @@ public class AriaShellOperationCommands implements CommandMarker {
      *
      * @return global state
      */
-    @CliCommand(value = "globalState", help = "Display global state")
-    public String globalState() {
+    @CliCommand(value = "stats", help = "Display global state")
+    public String stats() {
         try {
             StringBuilder builder = new StringBuilder();
             Map<String, String> globalStat = ariaService.getGlobalStat();
@@ -142,14 +142,14 @@ public class AriaShellOperationCommands implements CommandMarker {
     }
 
     /**
-     * tell status
+     * info status
      *
      * @param gid download gid
      * @return status
      */
     @SuppressWarnings("unchecked")
-    @CliCommand(value = "tell", help = "Tell status of gid")
-    public String tell(@CliOption(key = {""}, mandatory = true, help = "gid") String gid) {
+    @CliCommand(value = "info", help = "Display gid information")
+    public String info(@CliOption(key = {""}, mandatory = true, help = "gid") String gid) {
         try {
             if (gid.equals("stopped")) {
                 tellStopped();
@@ -164,14 +164,14 @@ public class AriaShellOperationCommands implements CommandMarker {
                 }
             }
         } catch (Exception e) {
-            log.error("tell", e);
+            log.error("info", e);
             return wrappedAsRed(e.getMessage());
         }
         return null;
     }
 
     /**
-     * tell stopped
+     * info stopped
      *
      * @return stopped information
      */
@@ -192,7 +192,7 @@ public class AriaShellOperationCommands implements CommandMarker {
     }
 
     /**
-     * tell stopped
+     * info stopped
      *
      * @return stopped information
      */
@@ -213,11 +213,11 @@ public class AriaShellOperationCommands implements CommandMarker {
     }
 
     /**
-     * tell stopped
+     * info stopped
      *
      * @return stopped information
      */
-    @CliCommand(value = "active", help = "Active Queue")
+    @CliCommand(value = "list", help = "Active Queue")
     public String tellActive() {
         try {
             System.out.println("==============Active==========");
