@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
  * @author linux_china
  */
 @Component
-@Order(Ordered.HIGHEST_PRECEDENCE)
 public class AriaShellPromptProvider extends DefaultPromptProvider implements InitializingBean {
     /**
      * prompt
