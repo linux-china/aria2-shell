@@ -206,6 +206,27 @@ public class AriaServiceImpl implements AriaService {
     }
 
     /**
+     * Pause all the active downloads
+     */
+    public void sleep() throws Exception {
+        client.execute("aria2.pauseAll", emptyParams);
+    }
+
+    /**
+     * Resume all the paused downloads
+     */
+    public void wake() throws Exception {
+        client.execute("aria2.unpauseAll", emptyParams);
+    }
+
+    /**
+     * Clear the list of stopped downloads and errors
+     */
+    public void purge() throws Exception {
+        client.execute("aria2.purgeDownloadResult", emptyParams);
+    }
+
+    /**
      * construct params
      *
      * @param params params

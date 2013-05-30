@@ -119,4 +119,19 @@ public interface AriaService {
      * @return global stat
      */
     public Map<String, String> getGlobalStat() throws Exception;
+
+    /**
+     * Pause all the active downloads
+     */
+    public void sleep() throws Exception;
+
+    /**
+     * Resume all the paused downloads
+     */
+    public void wake() throws Exception;
+
+    /**
+     * Clear the list of stopped downloads and errors
+     */
+    public void purge()throws Exception;
 }
