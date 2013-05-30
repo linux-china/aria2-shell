@@ -237,6 +237,16 @@ public class AriaServiceImpl implements AriaService {
     }
 
     /**
+     * get global option
+     *
+     * @return global option
+     * @throws Exception exception
+     */
+    public Map<String, Object> getGlobalOption() throws Exception {
+        return (Map<String, Object>) client.execute("aria2.getGlobalOption", emptyParams);
+    }
+
+    /**
      * construct params
      *
      * @param params params

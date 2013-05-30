@@ -142,4 +142,12 @@ public interface AriaService {
      * @throws Exception exception
      */
     public Map<String, Object> version() throws Exception;
+
+    /**
+     * get global option
+     *
+     * @return global option
+     * @throws Exception exception
+     */
+    public Map<String, Object> getGlobalOption() throws Exception;
 }
