@@ -70,4 +70,16 @@ public class AriaServiceImplTest extends TestCase {
             System.out.println(task);
         }
     }
+
+    /**
+     * test to get version
+     *
+     * @throws Exception exception
+     */
+    public void testVersion() throws Exception {
+        Map<String, Object> version = ariaService.version();
+        for (Map.Entry<String, Object> entry : version.entrySet()) {
+            System.out.println(entry.getKey());
+        }
+    }
 }
