@@ -196,6 +196,29 @@ public class AriaShellOperationCommands implements CommandMarker {
      *
      * @return stopped information
      */
+    @CliCommand(value = "errors", help = "Errors")
+    public String tellErrors() {
+        try {
+            System.out.println("==============Errors==========");
+            List<Map<String, Object>> items = ariaService.tellStopped(0, 100);
+            for (Map<String, Object> item : items) {
+                if (item.get("status").equals("error")) {
+                    printStatus(item);
+                    System.out.println("==============================");
+                }
+            }
+            return null;
+        } catch (Exception e) {
+            log.error("tellStopped", e);
+            return wrappedAsRed(e.getMessage());
+        }
+    }
+
+    /**
+     * info stopped
+     *
+     * @return stopped information
+     */
     @CliCommand(value = "waiting", help = "Waiting Queue")
     public String tellWaiting() {
         try {
