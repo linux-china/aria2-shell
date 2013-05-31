@@ -134,12 +134,12 @@ public class AriaShellOperationCommands implements CommandMarker {
     @CliCommand(value = "options", help = "Output global options")
     public String options() {
         try {
-            StringBuilder builder = new StringBuilder();
+            Set<String> items = new TreeSet<String>();
             Map<String, Object> version = ariaService.getGlobalOption();
             for (Map.Entry<String, Object> entry : version.entrySet()) {
-                builder.append(entry.getKey() + ": " + entry.getValue() + SystemUtils.LINE_SEPARATOR);
+                items.add(entry.getKey() + ": " + entry.getValue());
             }
-            return builder.toString().trim();
+            return StringUtils.join(items, SystemUtils.LINE_SEPARATOR);
         } catch (Exception e) {
             log.error("options", e);
             return wrappedAsRed(e.getMessage());
