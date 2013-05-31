@@ -354,7 +354,7 @@ public class AriaShellOperationCommands implements CommandMarker {
     @CliCommand(value = "paused", help = "List of paused downloads")
     public String tellWaiting() {
         try {
-            List<Map<String, Object>> items = ariaService.getAria2Ops().tellWaiting(0, 10);
+            List<Map<String, Object>> items = convertArrayIntoList(ariaService.getAria2Ops().tellWaiting(0, 10));
             printTasks("Paused", items);
             return null;
         } catch (Exception e) {
@@ -371,7 +371,7 @@ public class AriaShellOperationCommands implements CommandMarker {
     @CliCommand(value = "list", help = "List of active downloads")
     public String tellActive() {
         try {
-            List<Map<String, Object>> items = ariaService.getAria2Ops().tellActive();
+            List<Map<String, Object>> items = convertArrayIntoList(ariaService.getAria2Ops().tellActive());
             printTasks("Active", items);
             return null;
         } catch (Exception e) {
