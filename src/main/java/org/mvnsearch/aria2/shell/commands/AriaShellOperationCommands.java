@@ -75,7 +75,7 @@ public class AriaShellOperationCommands implements CommandMarker {
                 port = "6800";
             }
             ariaService.connect(host, Integer.valueOf(port));
-            ariaService.getGlobalStat();
+            ariaService.getAria2Ops().getGlobalStat();
         } catch (Exception e) {
             log.error("connect", e);
             return wrappedAsRed(e.getMessage());
@@ -92,7 +92,7 @@ public class AriaShellOperationCommands implements CommandMarker {
     public String stats() {
         try {
             StringBuilder builder = new StringBuilder();
-            Map<String, String> globalStat = ariaService.getGlobalStat();
+            Map<String, String> globalStat = ariaService.getAria2Ops().getGlobalStat();
             for (Map.Entry<String, String> entry : globalStat.entrySet()) {
                 builder.append(entry.getKey() + ":" + entry.getValue() + LINE_SEPARATOR);
             }
@@ -112,7 +112,7 @@ public class AriaShellOperationCommands implements CommandMarker {
     public String version() {
         try {
             StringBuilder builder = new StringBuilder();
-            Map<String, Object> version = ariaService.version();
+            Map<String, Object> version = ariaService.getAria2Ops().getVersion();
             builder.append("Version: " + version.get("version") + SystemUtils.LINE_SEPARATOR);
             Object[] features = (Object[]) version.get("enabledFeatures");
             builder.append("Features:" + SystemUtils.LINE_SEPARATOR);
@@ -135,8 +135,8 @@ public class AriaShellOperationCommands implements CommandMarker {
     public String options() {
         try {
             Set<String> items = new TreeSet<String>();
-            Map<String, Object> version = ariaService.getGlobalOption();
-            for (Map.Entry<String, Object> entry : version.entrySet()) {
+            Map<String, String> version = ariaService.getAria2Ops().getGlobalOption();
+            for (Map.Entry<String, String> entry : version.entrySet()) {
                 items.add(entry.getKey() + ": " + entry.getValue());
             }
             return StringUtils.join(items, SystemUtils.LINE_SEPARATOR);
@@ -157,8 +157,10 @@ public class AriaShellOperationCommands implements CommandMarker {
         try {
             if (pair.contains("=")) {
                 String[] parts = pair.split("=", 2);
-                ariaService.changeGlobalOption(parts[0], parts[1]);
-                Object value = ariaService.getGlobalOption().get(parts[0]);
+                Map<String, String> option = new HashMap<String, String>();
+                option.put(parts[0], parts[1]);
+                ariaService.getAria2Ops().changeGlobalOption(option);
+                Object value = ariaService.getAria2Ops().getGlobalOption().get(parts[0]);
                 return "Succeed! " + parts[0] + ": " + value;
             } else {
                 return "Pair format as xxxx=yyyy";
@@ -177,7 +179,7 @@ public class AriaShellOperationCommands implements CommandMarker {
     @CliCommand(value = "sleep", help = "Pause all the active downloads")
     public String sleep() {
         try {
-            ariaService.sleep();
+            ariaService.getAria2Ops().pauseAll();
             return "Aria sleeped!";
         } catch (Exception e) {
             log.error("sleep", e);
@@ -193,7 +195,7 @@ public class AriaShellOperationCommands implements CommandMarker {
     @CliCommand(value = "wake", help = "Resume all the paused downloads")
     public String wake() {
         try {
-            ariaService.sleep();
+            ariaService.getAria2Ops().unpauseAll();
             return "Aria waked!";
         } catch (Exception e) {
             log.error("wake", e);
@@ -209,7 +211,7 @@ public class AriaShellOperationCommands implements CommandMarker {
     @CliCommand(value = "purge", help = "Clear the list of stopped downloads and errors")
     public String purge() {
         try {
-            ariaService.sleep();
+            ariaService.getAria2Ops().purgeDownloadResult();
             return "Aria purged!";
         } catch (Exception e) {
             log.error("purge", e);
@@ -225,7 +227,7 @@ public class AriaShellOperationCommands implements CommandMarker {
     @CliCommand(value = "add", help = "Download the given url")
     public String add(@CliOption(key = {""}, mandatory = true, help = "URL") String url) {
         try {
-            String gid = ariaService.addUri(url, Collections.emptyMap());
+            String gid = ariaService.getAria2Ops().addUri(new String[]{url}, Collections.emptyMap());
             return "Download added and GID is " + gid;
         } catch (Exception e) {
             log.error("add", e);
@@ -241,7 +243,7 @@ public class AriaShellOperationCommands implements CommandMarker {
     @CliCommand(value = "remove", help = "Remove the download corresponding to the given GID")
     public String remove(@CliOption(key = {""}, mandatory = true, help = "gid") String gid) {
         try {
-            ariaService.remove(gid);
+            ariaService.getAria2Ops().remove(gid);
             return "gid: " + gid + " removed!";
         } catch (Exception e) {
             log.error("remove", e);
@@ -257,7 +259,7 @@ public class AriaShellOperationCommands implements CommandMarker {
     @CliCommand(value = "pause", help = "Pause the download corresponding to the given GID")
     public String pause(@CliOption(key = {""}, mandatory = true, help = "gid") String gid) {
         try {
-            ariaService.pause(gid);
+            ariaService.getAria2Ops().pause(gid);
             return "gid: " + gid + " paused!";
         } catch (Exception e) {
             log.error("pause", e);
@@ -273,7 +275,7 @@ public class AriaShellOperationCommands implements CommandMarker {
     @CliCommand(value = "resume", help = "Resume the download corresponding to the given GID")
     public String resume(@CliOption(key = {""}, mandatory = true, help = "gid") String gid) {
         try {
-            ariaService.unpause(gid);
+            ariaService.getAria2Ops().unpause(gid);
             return "gid: " + gid + " resumed!";
         } catch (Exception e) {
             log.error("resume", e);
@@ -298,7 +300,7 @@ public class AriaShellOperationCommands implements CommandMarker {
             } else if (gid.equals("active")) {
                 tellActive();
             } else {
-                Map<String, Object> status = ariaService.tellStatus(gid);
+                Map<String, Object> status = ariaService.getAria2Ops().tellStatus(gid);
                 if (status != null) {
                     printDetail(status);
                 }
@@ -318,7 +320,7 @@ public class AriaShellOperationCommands implements CommandMarker {
     @CliCommand(value = "stopped", help = "Stopped Queue")
     public String tellStopped() {
         try {
-            List<Map<String, Object>> items = ariaService.tellStopped(0, 10);
+            List<Map<String, Object>> items = convertArrayIntoList(ariaService.getAria2Ops().tellStopped(0, 10));
             printTasks("Stopped", items);
             return null;
         } catch (Exception e) {
@@ -335,7 +337,7 @@ public class AriaShellOperationCommands implements CommandMarker {
     @CliCommand(value = "errors", help = "List of errors")
     public String tellErrors() {
         try {
-            List<Map<String, Object>> items = ariaService.tellStopped(0, 100);
+            List<Map<String, Object>> items = convertArrayIntoList(ariaService.getAria2Ops().tellStopped(0, 100));
             printTasks("Errors", items);
             return null;
         } catch (Exception e) {
@@ -352,7 +354,7 @@ public class AriaShellOperationCommands implements CommandMarker {
     @CliCommand(value = "paused", help = "List of paused downloads")
     public String tellWaiting() {
         try {
-            List<Map<String, Object>> items = ariaService.tellWaiting(0, 10);
+            List<Map<String, Object>> items = ariaService.getAria2Ops().tellWaiting(0, 10);
             printTasks("Paused", items);
             return null;
         } catch (Exception e) {
@@ -369,7 +371,7 @@ public class AriaShellOperationCommands implements CommandMarker {
     @CliCommand(value = "list", help = "List of active downloads")
     public String tellActive() {
         try {
-            List<Map<String, Object>> items = ariaService.tellActive();
+            List<Map<String, Object>> items = ariaService.getAria2Ops().tellActive();
             printTasks("Active", items);
             return null;
         } catch (Exception e) {
@@ -521,6 +523,24 @@ public class AriaShellOperationCommands implements CommandMarker {
         }
         process.destroy();
         return StringUtils.join(lines, "\r\n");
+    }
+
+    /**
+     * convert array into list
+     *
+     * @param array array
+     * @return list
+     */
+    @SuppressWarnings("unchecked")
+    private List<Map<String, Object>> convertArrayIntoList(Object[] array) {
+        if (array != null && array.length > 0) {
+            List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+            for (Object obj : array) {
+                result.add((Map<String, Object>) obj);
+            }
+            return result;
+        }
+        return Collections.emptyList();
     }
 
 }
