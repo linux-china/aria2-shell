@@ -150,4 +150,13 @@ public interface AriaService {
      * @throws Exception exception
      */
     public Map<String, Object> getGlobalOption() throws Exception;
+
+    /**
+     * change global option
+     *
+     * @param name  name
+     * @param value value
+     * @throws Exception exception
+     */
+    public void changeGlobalOption(String name, Object value) throws Exception;
 }

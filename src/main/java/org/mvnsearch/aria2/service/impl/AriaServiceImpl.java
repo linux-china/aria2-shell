@@ -6,10 +6,7 @@ import org.mvnsearch.aria2.service.AriaService;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * aria service implementation
@@ -245,6 +242,20 @@ public class AriaServiceImpl implements AriaService {
      */
     public Map<String, Object> getGlobalOption() throws Exception {
         return (Map<String, Object>) client.execute("aria2.getGlobalOption", emptyParams);
+    }
+
+    /**
+     * change global option
+     *
+     * @param name  name
+     * @param value value
+     * @throws Exception exception
+     */
+    public void changeGlobalOption(String name, Object value) throws Exception {
+        Map<String, Object> options = new HashMap<String, Object>();
+        options.put(name, value);
+        List<Object> params = constructParams(options);
+        client.execute("aria2.changeGlobalOption", params);
     }
 
     /**
