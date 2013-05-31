@@ -1,14 +1,9 @@
 package org.mvnsearch.aria2.service.impl;
 
-import org.apache.xmlrpc.client.XmlRpcClient;
-import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 import org.mvnsearch.aria2.service.Aria2Ops;
 import org.mvnsearch.aria2.service.AriaService;
-import org.mvnsearch.aria2.xmlrpc.XmlRpcFactoryBean;
+import org.mvnsearch.aria2.xmlrpc.XmlRpcClientFactoryBean;
 import org.springframework.stereotype.Component;
-
-import java.net.URL;
-import java.util.*;
 
 /**
  * aria service implementation
@@ -41,7 +36,7 @@ public class AriaServiceImpl implements AriaService {
         this.host = host;
         this.port = port;
         String xmlRpcUrl = "http://" + host + ":" + port + "/rpc";
-        XmlRpcFactoryBean factoryBean = new XmlRpcFactoryBean();
+        XmlRpcClientFactoryBean factoryBean = new XmlRpcClientFactoryBean();
         factoryBean.setMethodPrefix("aria2.");
         factoryBean.setServiceUrl(xmlRpcUrl);
         factoryBean.setServiceInterface(Aria2Ops.class);
