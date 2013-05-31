@@ -2,7 +2,7 @@ package org.mvnsearch.aria2.jsonrpc;
 
 import junit.framework.TestCase;
 import org.mvnsearch.aria2.service.Aria2Ops;
-import org.mvnsearch.aria2.xmlrpc.XmlRpcFactoryBean;
+import org.mvnsearch.aria2.xmlrpc.XmlRpcClientFactoryBean;
 
 import java.util.*;
 
@@ -20,7 +20,7 @@ public class Aria2OpsTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        XmlRpcFactoryBean factoryBean = new XmlRpcFactoryBean();
+        XmlRpcClientFactoryBean factoryBean = new XmlRpcClientFactoryBean();
         factoryBean.setMethodPrefix("aria2.");
         factoryBean.setServiceUrl("http://127.0.0.1:6800/rpc");
         factoryBean.setServiceInterface(Aria2Ops.class);
