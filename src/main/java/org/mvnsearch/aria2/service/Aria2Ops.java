@@ -79,7 +79,7 @@ public interface Aria2Ops {
      *
      * @return active list
      */
-    public Map<String, Object>[] tellActive();
+    public Object[] tellActive();
 
     /**
      * get waiting list
@@ -88,7 +88,7 @@ public interface Aria2Ops {
      * @param maxResults max results
      * @return waiting list
      */
-    public Map<String, Object>[] tellWaiting(Integer offset, Integer maxResults);
+    public Object[] tellWaiting(Integer offset, Integer maxResults);
 
     /**
      * get stopped list
@@ -97,7 +97,7 @@ public interface Aria2Ops {
      * @param maxResults max results
      * @return stopped list
      */
-    public Map<String, Object>[] tellStopped(Integer offset, Integer maxResults);
+    public Object[] tellStopped(Integer offset, Integer maxResults);
 
 
     /**
@@ -135,7 +135,7 @@ public interface Aria2Ops {
      *
      * @return global stat
      */
-    public Map<String, Object> getGlobalStat();
+    public Map<String, String> getGlobalStat();
 
     /**
      * purges completed/error/removed downloads to free memory
