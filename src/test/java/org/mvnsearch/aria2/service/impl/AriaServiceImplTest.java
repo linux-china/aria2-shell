@@ -82,4 +82,27 @@ public class AriaServiceImplTest extends TestCase {
             System.out.println(entry.getKey());
         }
     }
+
+    /**
+     * test to get global option
+     *
+     * @throws Exception exception
+     */
+    public void testGetGlobalOption() throws Exception {
+        Map<String, Object> options = ariaService.getGlobalOption();
+        for (Map.Entry<String, Object> entry : options.entrySet()) {
+            System.out.println(entry.getKey() + ":" + entry.getValue());
+        }
+    }
+
+    /**
+     * test to change global option
+     *
+     * @throws Exception
+     */
+    public void testChangeGlobalOption() throws Exception {
+        ariaService.changeGlobalOption("max-concurrent-downloads", "2");
+        Map<String, Object> options = ariaService.getGlobalOption();
+        System.out.println(options.get("max-concurrent-downloads"));
+    }
 }
