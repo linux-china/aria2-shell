@@ -147,6 +147,29 @@ public class AriaShellOperationCommands implements CommandMarker {
     }
 
     /**
+     * change global option
+     *
+     * @param pair pair
+     * @return message
+     */
+    @CliCommand(value = "change", help = "Change global option, format as xxxx=yyy")
+    public String change(@CliOption(key = {""}, mandatory = true, help = "Pair") String pair) {
+        try {
+            if (pair.contains("=")) {
+                String[] parts = pair.split("=", 2);
+                ariaService.changeGlobalOption(parts[0], parts[1]);
+                Object value = ariaService.getGlobalOption().get(parts[0]);
+                return "Succeed! " + parts[0] + ": " + value;
+            } else {
+                return "Pair format as xxxx=yyyy";
+            }
+        } catch (Exception e) {
+            log.error("options", e);
+            return wrappedAsRed(e.getMessage());
+        }
+    }
+
+    /**
      * Pause all the active downloads
      *
      * @return message
