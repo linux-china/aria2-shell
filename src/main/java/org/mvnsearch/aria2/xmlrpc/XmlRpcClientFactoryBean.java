@@ -16,11 +16,11 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * xml-rpc factory bean
+ * xml-rpc client factory bean
  *
  * @author linux_china
  */
-public class XmlRpcFactoryBean extends UrlBasedRemoteAccessor implements MethodInterceptor, InitializingBean, FactoryBean<Object> {
+public class XmlRpcClientFactoryBean extends UrlBasedRemoteAccessor implements MethodInterceptor, InitializingBean, FactoryBean<Object> {
     /**
      * proxy object
      */
@@ -43,6 +43,9 @@ public class XmlRpcFactoryBean extends UrlBasedRemoteAccessor implements MethodI
         this.methodPrefix = methodPrefix;
     }
 
+    /**
+     * init logic to create proxy object and xml-rpc client
+     */
     public void afterPropertiesSet() {
         super.afterPropertiesSet();
         // create proxy
@@ -58,18 +61,41 @@ public class XmlRpcFactoryBean extends UrlBasedRemoteAccessor implements MethodI
         }
     }
 
+    /**
+     * get proxy object
+     *
+     * @return proxy object
+     * @throws Exception exception
+     */
     public Object getObject() throws Exception {
         return this.proxyObject;
     }
 
+    /**
+     * get object type
+     *
+     * @return service interface
+     */
     public Class<?> getObjectType() {
         return getServiceInterface();
     }
 
+    /**
+     * singleton mark
+     *
+     * @return singleton
+     */
     public boolean isSingleton() {
         return true;
     }
 
+    /**
+     * method invoke interceptor
+     *
+     * @param invocation method invocation
+     * @return return object
+     * @throws Throwable exception
+     */
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Method method = invocation.getMethod();
         Object[] arguments = invocation.getArguments();
