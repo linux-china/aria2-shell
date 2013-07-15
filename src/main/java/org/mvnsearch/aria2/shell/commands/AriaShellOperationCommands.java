@@ -252,6 +252,22 @@ public class AriaShellOperationCommands implements CommandMarker {
     }
 
     /**
+     * destroy download
+     *
+     * @return message
+     */
+    @CliCommand(value = "destroy", help = "Remove completed/error/removed download denoted by gid from memory")
+    public String destroy(@CliOption(key = {""}, mandatory = true, help = "gid") String gid) {
+        try {
+            ariaService.getAria2Ops().removeDownloadResult(gid);
+            return "gid: " + gid + " destroyed!";
+        } catch (Exception e) {
+            log.error("destroy", e);
+            return wrappedAsRed(e.getMessage());
+        }
+    }
+
+    /**
      * pause download
      *
      * @return message
