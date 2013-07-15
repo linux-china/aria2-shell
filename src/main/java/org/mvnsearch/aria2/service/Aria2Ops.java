@@ -142,6 +142,14 @@ public interface Aria2Ops {
      */
     public void purgeDownloadResult();
 
+
+    /**
+     * removes completed/error/removed download denoted by gid from memory
+     *
+     * @param gid gid
+     */
+    public void removeDownloadResult(String gid);
+
     /**
      * get version
      *
