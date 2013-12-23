@@ -60,7 +60,7 @@ public class AriaShellOperationCommands implements CommandMarker {
     }
 
     /**
-     * config command to save aliyun OSS information
+     * connected to Aria2
      *
      * @return result
      */
