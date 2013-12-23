@@ -19,7 +19,7 @@
             <useDefaultExcludes>true</useDefaultExcludes>
         </fileSet>
         <fileSet>
-            <directory>${project.build.directory}/ali_oss</directory>
+            <directory>${project.build.directory}/aria2-shell</directory>
             <outputDirectory>/</outputDirectory>
             <includes>
                 <include>*/**</include>
