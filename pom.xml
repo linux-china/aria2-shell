@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>Aria2 Shell</name>
-    <url>http://baike.corp.taobao.com/index.php/CS_RD/tfs</url>
+    <url>https://github.com/linux-china/aria2-shell</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
