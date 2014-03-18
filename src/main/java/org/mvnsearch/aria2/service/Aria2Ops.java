@@ -20,6 +20,14 @@ public interface Aria2Ops {
     public String addUri(String[] url, @NotNull Map options);
 
     /**
+     * add torrent
+     *
+     * @param torrent torrent
+     * @return gid
+     */
+    public String addTorrent(byte[] torrent);
+
+    /**
      * remove gid
      *
      * @param gid gid
