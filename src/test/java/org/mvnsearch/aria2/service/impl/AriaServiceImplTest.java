@@ -1,6 +1,10 @@
 package org.mvnsearch.aria2.service.impl;
 
 import junit.framework.TestCase;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.IOUtils;
+
+import java.io.FileInputStream;
 
 /**
  * aria service implementation test
@@ -30,4 +34,13 @@ public class AriaServiceImplTest extends TestCase {
     public void testGetAria2Ops() {
         assertNotNull("Aria2ops is null", ariaService.getAria2Ops());
     }
+
+    /**
+     * test operations
+     */
+    public void testOperations() {
+        Object[] objects = ariaService.getAria2Ops().tellActive();
+        System.out.println(objects.length);
+    }
+
 }
