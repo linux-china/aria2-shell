@@ -32,6 +32,7 @@ public class AriaServiceImpl implements AriaService {
      * @param host host name
      * @param port port
      */
+    @Override
     public void connect(String host, int port) throws Exception {
         this.host = host;
         this.port = port;

@@ -1,5 +1,6 @@
 package org.mvnsearch.aria2.shell.commands;
 
+import java.io.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.fusesource.jansi.Ansi;
@@ -15,10 +16,8 @@ import org.springframework.shell.core.annotation.CliOption;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.*;
+import org.apache.commons.io.*;
 
 /**
  * Aria Shell operation commands
@@ -228,6 +227,25 @@ public class AriaShellOperationCommands implements CommandMarker {
     public String add(@CliOption(key = {""}, mandatory = true, help = "URL") String url) {
         try {
             String gid = ariaService.getAria2Ops().addUri(new String[]{url}, Collections.emptyMap());
+            return "Download added and GID is " + gid;
+        } catch (Exception e) {
+            log.error("add", e);
+            return wrappedAsRed(e.getMessage());
+        }
+    }
+
+    /**
+     * add bit torrent file
+     *
+     * @return message
+     */
+    @CliCommand(value = "addbt", help = "Download the given torrent file")
+    public String addt(@CliOption(key = {""}, mandatory = true, help = "Torrent") String torrent) {
+        try {
+            InputStream in=new FileInputStream(torrent);
+            byte[] content=IOUtils.toByteArray(in);
+            in.close();
+            String gid = ariaService.getAria2Ops().addTorrent(content);
             return "Download added and GID is " + gid;
         } catch (Exception e) {
             log.error("add", e);
