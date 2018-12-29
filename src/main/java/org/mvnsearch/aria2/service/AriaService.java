@@ -1,8 +1,5 @@
 package org.mvnsearch.aria2.service;
 
-import java.util.List;
-import java.util.Map;
-
 /**
  * aria service
  *
@@ -14,6 +11,7 @@ public interface AriaService {
      *
      * @param host host name
      * @param port port
+     * @throws java.lang.Exception
      */
     public void connect(String host, int port) throws Exception;
 
