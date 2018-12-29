@@ -1,6 +1,7 @@
 package org.mvnsearch.aria2.shell.commands;
 
 import java.io.*;
+import java.text.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.fusesource.jansi.Ansi;
@@ -398,9 +399,9 @@ public class AriaShellOperationCommands implements CommandMarker {
     }
 
     /**
-     * info stopped
+     * info list
      *
-     * @return stopped information
+     * @return list active downloads information
      */
     @CliCommand(value = "list", help = "List of active downloads")
     public String tellActive() {
@@ -493,15 +494,45 @@ public class AriaShellOperationCommands implements CommandMarker {
         for (Map<String, Object> task : tasks) {
             System.out.println("==============" + title + "==========");
             System.out.println("gid: " + task.get("gid"));
-            System.out.println("status: " + task.get("status"));
-            Map<String, Object> files = (Map<String, Object>) ((Object[]) task.get("files"))[0];
-            if (files.containsKey("path")) {
-                System.out.println("path: " + files.get("path"));
+            //System.out.println("status: " + task.get("status"));
+            Map<String, Object> torrent=(Map<String, Object>)task.get("bittorrent");
+            if(torrent!=null) {
+                Map<String, Object> info=(Map<String, Object>)torrent.get("info");
+                System.out.println("name: " + info.get("name"));
             }
-            Map<String, Object> uriInfo = (Map<String, Object>) ((Object[]) files.get("uris"))[0];
-            System.out.println("uri: " + uriInfo.get("uri"));
-            System.out.println("========================");
+            else {
+                Map<String, Object> files = (Map<String, Object>) ((Object[]) task.get("files"))[0];
+                if (files.containsKey("path")) {
+                    System.out.println("path: " + files.get("path"));
+                }
+                Map<String, Object> uriInfo = (Map<String, Object>) ((Object[]) files.get("uris"))[0];
+                System.out.println("uri: " + uriInfo.get("uri"));
+            }
+            System.out.println("dir: " + task.get("dir"));
+            long totalLength=Long.valueOf((String)task.get("totalLength"));
+            System.out.println("totalLength: " + humanReadableByteCount(totalLength,false));
+            long completedLength=Long.valueOf((String)task.get("completedLength"));            
+            DecimalFormat df = new DecimalFormat("#.00");
+            System.out.println("completed: " + df.format((double)completedLength*100/totalLength)+"%");
+            long downloadSpeed=Long.valueOf((String)task.get("downloadSpeed"));
+            System.out.println("downloadSpeed: " + humanReadableByteCount(downloadSpeed,false)+"/s");
+            long uploadLength=Long.valueOf((String)task.get("uploadLength"));
+            System.out.println("uploadLength: " + humanReadableByteCount(uploadLength,false));
+            long uploadSpeed=Long.valueOf((String)task.get("uploadSpeed"));
+            System.out.println("uploadSpeed: " + humanReadableByteCount(uploadSpeed,false)+"/s");
+            System.out.println("numSeeders: " + task.get("numSeeders"));
+            System.out.println("connections: " + task.get("connections"));
+            
+            System.out.println("===============================");
         }
+    }
+    
+    public static String humanReadableByteCount(long bytes, boolean si) {
+        int unit = si ? 1000 : 1024;
+        if (bytes < unit) return bytes + " B";
+        int exp = (int) (Math.log(bytes) / Math.log(unit));
+        String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp-1) + (si ? "" : "i");
+        return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
     }
 
     /**
